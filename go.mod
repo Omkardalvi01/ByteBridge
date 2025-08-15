@@ -1,4 +1,4 @@
-module github.com/Omkardalvi01/ByteBridge.git
+module github.com/Omkardalvi01/ByteBridge
 
 go 1.24.4
 
