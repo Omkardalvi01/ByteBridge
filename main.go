@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"strings"
+	"github.com/Omkardalvi01/ByteBridge/internal/request"
 )
 func getLinesChannel(f io.ReadCloser) <-chan string{
 	c := make(chan string)
@@ -44,11 +45,14 @@ func main() {
 			log.Fatal("Error while making connection ",err)
 		}
 
-		c := getLinesChannel(conn)
-
-		for line := range c{
-			fmt.Println("read: ",line)
+		r , err := request.RequestFromReader(conn)
+		if err != nil{
+			log.Fatal("Error while reading ",err)
 		}
+		
+		fmt.Println("Method:",r.RequestLine.Method)
+		fmt.Println("Version:",r.RequestLine.HttpVersion)
+		fmt.Println("Addr:",r.RequestLine.RequestTarget)
 		conn.Close()
 	}
 	
